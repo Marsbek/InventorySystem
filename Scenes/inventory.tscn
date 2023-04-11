@@ -1,0 +1,136 @@
+[gd_scene load_steps=6 format=3 uid="uid://dex7051x4nkcj"]
+
+[ext_resource type="Script" path="res://addons/GGDK/InventorySystem/Scripts/Inventory.gd" id="1_xck4t"]
+[ext_resource type="PackedScene" uid="uid://d31mthrorx2vp" path="res://addons/GGDK/InventorySystem/Scenes/inventory_button.tscn" id="2_mld35"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ms5mb"]
+bg_color = Color(0, 0, 0, 0.270588)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sdnw4"]
+radius = 4.12311
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p5c5o"]
+size = Vector2(35.5, 37.5)
+
+[node name="Inventory" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xck4t")
+MaxWeight = 20
+AllowOverWeight = true
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -213.0
+offset_top = -164.5
+offset_right = 213.0
+offset_bottom = 164.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ms5mb")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -138.5
+offset_top = -108.0
+offset_right = 138.5
+offset_bottom = 108.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 5
+theme_override_constants/v_separation = 5
+columns = 5
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -249.0
+offset_top = -76.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Add Item
+"
+
+[node name="Button2" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -530.0
+offset_top = -76.0
+offset_right = -281.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Remove Item
+"
+
+[node name="MouseArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MouseArea"]
+shape = SubResource("CircleShape2D_sdnw4")
+
+[node name="InventoryButton" parent="MouseArea" instance=ExtResource("2_mld35")]
+visible = false
+
+[node name="Button3" type="Button" parent="."]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 0
+offset_left = 806.0
+offset_top = 478.0
+offset_right = 846.0
+offset_bottom = 518.0
+
+[node name="TrashArea" type="Area2D" parent="Button3"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Button3/TrashArea"]
+position = Vector2(20, 20)
+shape = SubResource("RectangleShape2D_p5c5o")
+
+[node name="WeightLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 442.0
+offset_top = 478.0
+offset_right = 482.0
+offset_bottom = 501.0
+scale = Vector2(1.56, 1.48)
+text = "Weight:"
+
+[node name="WeightValue" type="Label" parent="."]
+layout_mode = 0
+offset_left = 536.0
+offset_top = 478.0
+offset_right = 595.0
+offset_bottom = 504.0
+scale = Vector2(1.56, 1.48)
+
+[connection signal="button_down" from="Button" to="." method="_on_button_button_down"]
+[connection signal="button_down" from="Button2" to="." method="_on_button_2_button_down"]
+[connection signal="area_entered" from="MouseArea" to="." method="_on_mouse_area_area_entered"]
+[connection signal="area_exited" from="MouseArea" to="." method="_on_mouse_area_area_exited"]
+[connection signal="area_entered" from="Button3/TrashArea" to="." method="_on_trash_area_area_entered"]
+[connection signal="area_exited" from="Button3/TrashArea" to="." method="_on_trash_area_area_exited"]
